@@ -3,7 +3,7 @@
 	url = https://github.com/SV22-TikiTaka/backend.git
 [submodule "frontendWeb"]
 	path = frontendWeb
-	url = https://github.com/SV22-TikiTaka/frontendWeb.git
+	url = https://github.com/SV22-TikiTaka/frontend-web.git
 [submodule "frontendApp"]
 	path = frontendApp
-	url = https://github.com/SV22-TikiTaka/frontendApp.git
+	url = https://github.com/SV22-TikiTaka/frontend-app.git
