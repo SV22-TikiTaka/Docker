@@ -2,8 +2,8 @@
 	path = backend
 	url = https://github.com/SV22-TikiTaka/backend.git
 [submodule "frontend-web"]
-	path = frontendWeb
+	path = frontend-web
 	url = https://github.com/SV22-TikiTaka/frontend-web.git
 [submodule "frontend-app"]
-	path = frontendApp
+	path = frontend-app
 	url = https://github.com/SV22-TikiTaka/frontend-app.git
