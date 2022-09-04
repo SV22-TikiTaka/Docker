@@ -4,6 +4,7 @@
 [submodule "frontendWeb"]
 	path = frontendWeb
 	url = https://github.com/SV22-TikiTaka/frontend-web.git
+	branch = dev
 [submodule "frontendApp"]
 	path = frontendApp
 	url = https://github.com/SV22-TikiTaka/frontend-app.git
