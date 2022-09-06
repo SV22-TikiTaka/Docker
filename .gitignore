@@ -1,0 +1,11 @@
+### env ###
+.env
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### python ###
+__pycache__/
