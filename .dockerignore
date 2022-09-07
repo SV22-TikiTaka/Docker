@@ -1,3 +1,5 @@
-docker/
+nginx/
 frontendApp/
-frontendWeb/
+.gitmodules
+README.md
+.gitignore
