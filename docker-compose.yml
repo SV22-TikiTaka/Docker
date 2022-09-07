@@ -43,6 +43,20 @@ services:
       - app-tier
     # 명령어 실행 끝나도 안꺼짐
     tty: true
+  
+  frontend-web:
+    container_name: frontend-web-con
+    build: ./frontend-web
+    command: ["yarn", "start"]
+
+    networks:
+      - app-tier
+    volumes:
+      - ./frontend-web/:/frontend-web
+      - build_folder:/frontend-web/build
+      - ./frontend-web/node_modules/:/frontend-web/node_modules
+    ports:
+      - 3000:3000
     
 networks:
   app-tier:
@@ -50,3 +64,4 @@ networks:
   
 volumes:
   data_mysql:
+  build_folder:
