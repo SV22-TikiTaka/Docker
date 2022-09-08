@@ -5,11 +5,8 @@ services:
     image: mysql
     platform: linux/amd64
     container_name: mysql-con
-    environment:
-      MYSQL_DATABASE: tikitaka
-      MYSQL_USER: tikitaka
-      MYSQL_PASSWORD: tikitaka2022
-      MYSQL_ROOT_PASSWORD: tikitaka2022
+    env_file:
+      - ./.env
     ports:
       - 3307:3306
     expose:
@@ -35,7 +32,7 @@ services:
       - ./backend:/backend/
     # restart: always 배포때만
     env_file:
-     - ./.env
+      - ./.env
     depends_on:
       - db
     # command: 
