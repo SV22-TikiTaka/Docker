@@ -7,3 +7,4 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/SV22-TikiTaka/backend.git
+	branch = dev
