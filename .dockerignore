@@ -1,5 +1,4 @@
-nginx/
 frontendApp/
 .gitmodules
-README.md
 .gitignore
+README.md

@@ -54,6 +54,8 @@ services:
       - ./frontend-web/node_modules/:/frontend-web/node_modules
     ports:
       - 3000:3000
+    # 명령어 실행 끝나도 안꺼짐
+    tty: true
 
   nginx:
     container_name: nginx-con
@@ -64,6 +66,8 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
       - app-tier
+    # 명령어 실행 끝나도 안꺼짐
+    tty: true
 
 networks:
   app-tier:
