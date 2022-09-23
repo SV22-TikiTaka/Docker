@@ -69,9 +69,28 @@ services:
     # 명령어 실행 끝나도 안꺼짐
     tty: true
 
+
+  prometheus:
+    image: prom/prometheus #docker Hub에서 가져와서 사용
+    container_name: prometheus #컨테이너 이름 설정
+    volumes:
+      - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/volume:/prometheus
+    ports:
+      - 9090:9090 #외부:내부포트
+    command: # 컨테이너 실행 완료 후 컨테이너의 쉘에서 실행시킬 쉘명령어를 지정할 수 있다.
+      - '--web.enable-lifecycle' #구성된 규칙 파일 다시 로드
+      - '--config.file=/etc/prometheus/prometheus.yml' #로드할 구성 파일 지정
+    # restart: always #컨테이너가 다운될 경우 항상 재실행
+    networks:
+      - promnet #컨테이너간의 네트워크 분리를 위해 설정
+
 networks:
   app-tier:
     external: true
+
+  promnet:
+    driver: bridge
   
 volumes:
   data_mysql:
