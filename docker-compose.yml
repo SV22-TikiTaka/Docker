@@ -68,9 +68,10 @@ services:
       - app-tier
     # 명령어 실행 끝나도 안꺼짐
     tty: true
-    links:
-      - prometheus_nginx
-
+#    links:
+#      - prometheus_nginx
+    depends_on:
+      - backend
 
   prometheus:
     image: prom/prometheus #docker Hub에서 가져와서 사용
@@ -87,15 +88,18 @@ services:
     networks:
       - promnet #컨테이너간의 네트워크 분리를 위해 설정
 
-  prometheus_nginx:                                                                                                   
-    image: nginx/nginx-prometheus-exporter:latest                                                                      
+  node-exporter:
+    image: nginx/nginx-prometheus-exporter
+    container_name: node-exporter
     ports:                                                                                                            
     - "9113:9113"                                                                                                     
     command:                                                                                                          
-    - -nginx.scrape-uri=http://nginx/metrics
+    - -nginx.scrape-uri=http://nginx:80/metrics
     - -web.telemetry-path=/prometheus
-
-
+    networks:
+      - app-tier
+    depends_on:
+      - nginx
 
 networks:
   app-tier:
