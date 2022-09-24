@@ -68,6 +68,8 @@ services:
       - app-tier
     # 명령어 실행 끝나도 안꺼짐
     tty: true
+    links:
+      - prometheus_nginx
 
 
   prometheus:
@@ -75,7 +77,7 @@ services:
     container_name: prometheus #컨테이너 이름 설정
     volumes:
       - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus/volume:/prometheus
+      # - ./prometheus/volume:/prometheus
     ports:
       - 9090:9090 #외부:내부포트
     command: # 컨테이너 실행 완료 후 컨테이너의 쉘에서 실행시킬 쉘명령어를 지정할 수 있다.
@@ -84,6 +86,16 @@ services:
     # restart: always #컨테이너가 다운될 경우 항상 재실행
     networks:
       - promnet #컨테이너간의 네트워크 분리를 위해 설정
+
+  prometheus_nginx:                                                                                                   
+    image: nginx/nginx-prometheus-exporter:latest                                                                      
+    ports:                                                                                                            
+    - "9113:9113"                                                                                                     
+    command:                                                                                                          
+    - -nginx.scrape-uri=http://nginx/metrics
+    - -web.telemetry-path=/prometheus
+
+
 
 networks:
   app-tier:
