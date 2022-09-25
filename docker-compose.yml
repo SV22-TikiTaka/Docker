@@ -9,8 +9,6 @@ services:
       - ./.env
     ports:
       - 3307:3306
-    expose:
-      - 3306
     volumes:
       - data_mysql:/mysql
     networks:
@@ -24,8 +22,6 @@ services:
     container_name: backend-con
     build:
       context: ./backend
-    ports:
-      - 8000:8000
     expose:
       - 8000
     volumes:
@@ -44,7 +40,7 @@ services:
   frontend-web:
     container_name: frontend-web-con
     build: ./frontend-web
-    command: ["yarn", "start"]
+    command: ["serve", "-s", "build", "-l", "3001"]
 
     networks:
       - app-tier
@@ -52,8 +48,6 @@ services:
       - ./frontend-web/:/frontend-web
       - build_folder:/frontend-web/build
       - ./frontend-web/node_modules/:/frontend-web/node_modules
-    ports:
-      - 3000:3000
     # 명령어 실행 끝나도 안꺼짐
     tty: true
 
@@ -61,13 +55,25 @@ services:
     container_name: nginx-con
     build: ./nginx
     ports:
-    - 80:80
+      - 80:80
+      - 443:443
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     networks:
       - app-tier
+    restart: always
     # 명령어 실행 끝나도 안꺼짐
     tty: true
+  
+  certbot:
+    container_name: certbot-con
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/var/www/certbot --email deca3248@gmail.com --agree-tos --no-eff-email -d letstikitaka.com
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
 
 networks:
   app-tier:
