@@ -11,24 +11,21 @@ global:
 #       # - alertmanager:9093
 # 규칙을 처음 한번 로딩하고 'evaluation_interval'설정에 따라 정기적으로 규칙을 평가한다.
 rule_files:
-  # - "first_rules.yml"
+   - "rule.yml"
   # - "second_rules.yml"
 
 # 매트릭을 수집할 엔드포인트를 설정
 scrape_configs:
   # 이 설정에서 수집한 타임시리즈에 'job=<job_name>'으로 잡의 이름을 설정한다.
-  - job_name: 'nginx-prometheus-exporter'
-    # 'metrics_path'라는 설정의 기본 값은 '/metrics'이고
-    metrics_path: '/prometheus'
-    scrape_interval: 3m
-    scrape_timeout: 5m
-    # 'scheme'라는 설정의 기본 값은 'http'이다.
-    static_configs: #모니터링 타겟 지정
-    - targets: ['127.0.0.1:9113'] #9090:프로메테우스 자체 서비스 포트
+  - job_name: 'prometheus'
+    scrape_interval: 5s
 
-  # - job_name: 'nginx'
-  #   # 'metrics_path'라는 설정의 기본 값은 '/metrics'이고
-  # #  metrics_path: '/prometheus'
-  #   # 'scheme'라는 설정의 기본 값은 'http'이다.
-  #   static_configs: #모니터링 타겟 지정
-  #   - targets: ['127.0.0.1:80'] #9090:프로메테우스 자체 서비스 포트
+    static_configs:
+      - targets: ['prometheus:9090']
+
+  - job_name: 'nginx-prometheus-exporter'
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['node-exporter:9113']
+

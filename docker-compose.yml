@@ -61,7 +61,7 @@ services:
     container_name: nginx-con
     build: ./nginx
     ports:
-    - 80:80
+    - 8080:80
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
@@ -87,6 +87,8 @@ services:
     # restart: always #컨테이너가 다운될 경우 항상 재실행
     networks:
       - promnet #컨테이너간의 네트워크 분리를 위해 설정
+    depends_on:
+      - node-exporter
 
   node-exporter:
     image: nginx/nginx-prometheus-exporter
@@ -100,6 +102,7 @@ services:
       - app-tier
     depends_on:
       - nginx
+
 
 networks:
   app-tier:
