@@ -120,8 +120,55 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
 
+<<<<<<< HEAD
 
 
+=======
+  prometheus:
+    image: prom/prometheus #docker Hub에서 가져와서 사용
+    container_name: prometheus #컨테이너 이름 설정
+    volumes:
+      - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      # - ./prometheus/volume:/prometheus
+    ports:
+      - 9090:9090 #외부:내부포트
+    command: # 컨테이너 실행 완료 후 컨테이너의 쉘에서 실행시킬 쉘명령어를 지정할 수 있다.
+      - '--web.enable-lifecycle' #구성된 규칙 파일 다시 로드
+      - '--config.file=/etc/prometheus/prometheus.yml' #로드할 구성 파일 지정
+    # restart: always #컨테이너가 다운될 경우 항상 재실행
+    networks:
+      - app-tier #컨테이너간의 네트워크 분리를 위해 설정
+    depends_on:
+      - node-exporter
+
+  # node-exporter:
+  #   image: nginx/nginx-prometheus-exporter
+  #   container_name: node-exporter
+  #   ports:
+  #     - "9113:9113"
+  #   command:
+  #     - -nginx.scrape-uri=http://nginx:8081/metrics
+  #     - -web.telemetry-path=/prometheus
+  #   networks:
+  #     - app-tier
+  #   depends_on:
+  #     - nginx
+  #   restart: always
+  node-exporter:
+    image: nginx/nginx-prometheus-exporter
+    container_name: node-exporter
+    ports:
+      - "9113:9113"
+    command:
+      - -nginx.scrape-uri
+      - http://nginx-con/metrics
+    depends_on:
+      - nginx
+    networks:
+      - app-tier
+    restart: always
+    
+>>>>>>> #6
 networks:
   app-tier:
     external: true
