@@ -4,6 +4,7 @@ global:
   evaluation_interval: 15s # 15초마다 매트릭을 수집한다. 기본은 1분이다.
 
 rule_files:
+  - "rules.yml"
 
 
 scrape_configs:
